@@ -121,7 +121,7 @@ public class PlayerAI extends Player {
   private int availableMoves() { // Mayhaps we use this function
     ArrayList<Integer> validMoves = new ArrayList<>();
 
-    for (int i = 0; i < CIRCLE_SIZE; i++) {
+    for (int i = 0; i <= CIRCLE_SIZE; i++) {
       if (super.boardReader.pieceAt(i) == super.playerID) {
         if (isValidMove(i)) {
           validMoves.add(i);
