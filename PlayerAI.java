@@ -75,7 +75,6 @@ public class PlayerAI extends Player {
   
   private Boolean isValidMove(int pieceLocation) {
     int empty = -1, spaceToLeft, spaceToRight; // set empty to -1 to applease the compiling gods
-    int pieceToMove = getMove();
     
     for (int i = 0; i < CIRCLE_SIZE + 1; i++) {
       if (super.boardReader.pieceAt(i) == Board.Piece.BLANK) {
