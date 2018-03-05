@@ -73,7 +73,7 @@ public class PlayerAI extends Player {
     return availableMoves();
   }
   
-  private Boolean isValidMove(int pieceLocation) {
+  private Boolean isValidMove(int pieceToMove) {
     int empty = -1, spaceToLeft, spaceToRight; // set empty to -1 to applease the compiling gods
     
     for (int i = 0; i < CIRCLE_SIZE + 1; i++) {
