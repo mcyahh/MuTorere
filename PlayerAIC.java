@@ -150,11 +150,12 @@ public class PlayerAIC extends Player {
   }
   
   /**
-   * Checks if a valid move has a piece of the same team adjacent to it.
+   * Checks if a valid move has one, two or none pieces of the same team adjacent to it.
+   *
    * @int postion is the piece that is being checked for adjacency.
-   * @return true if a team piece is adjacent, otherwise false.
+   * @return 1 if one team piece is adjacent, 2 if two are adjacent, otherwise 0.
    */
-  private boolean checkAdjacent(int postion) {
+  private int checkAdjacent(int postion) {
     int[] board = new int[CIRCLE_SIZE]; 
     for (int i = 0; i <= CIRCLE_SIZE; i++) {
       if (super.boardReader.pieceAt(i) == playerID) {
@@ -164,51 +165,80 @@ public class PlayerAIC extends Player {
       }
     }
     if (postion == CIRCLE_SIZE) {
-      return false;
+      return 0;
     }
+	if (board[(postion + 1) % CIRCLE_SIZE] == 1 && board[(position - 1 + CIRCLE_SIZE) % CIRCLE_SIZE] == 1) {
+      return 2;
+	}
     if (board[(postion + 1) % CIRCLE_SIZE] == 1 || board[(position - 1 + CIRCLE_SIZE) % CIRCLE_SIZE] == 1) {
-      return true;
+      return 1;
     }
-    return false;
+    return 0;
   }
   
   /**
-   * Checks valid moves to determine which is the best.
+   * Puts valid moves through move priorities to determine which is the best move to make.
+   * If there is no best move the first move will be taken.
+   *
    * @ArrayList<Integer> moves the array of valid moves.
    * @return the best piece to move.
    */
   private int isBestMove(ArrayList<Integer> moves) {
+	/*
+		For when there are two valid moves.
+	*/
     if (moves.size() == 2) {
       for(int i = 0; i < moves.size(); i++) {
+		/*
+			Hogs the center.
+		*/
         if(moves.get(i) == CIRCLE_SIZE) {
           return moves.get((i + 1) % moves.size());
         }
-        if (checkAdjacent(moves.get(i)) {
+		/*
+			Prevents groups of 3.
+		*/
+        if (checkAdjacent(moves.get(i) > 0) {
           return moves.get(i);
         }
       }
+	  /*
+		Ensures that a losing move is not taken.
+	  */
       for(int i = 0; i < moves.size(); i++) {
-        if (checkAdjacent(moves.get((i + 1) % CIRCLE_SIZE))) {
+        if (checkAdjacent(moves.get((i + 1) % CIRCLE_SIZE)) == 2) {
           return moves.get(i);
         }
-        if (checkAdjacent(moves.get((i - 1 + CIRCLE_SIZE) % CIRCLE_SIZE))) {
+        if (checkAdjacent(moves.get((i - 1 + CIRCLE_SIZE) % CIRCLE_SIZE)) ==  2) {
           return moves.get(i);
         }
       }
     }
+	/*
+		For when there are three valid moves, this was the most basic case.
+	*/
     if (moves.size() == 3) {
       for(int i = 0; i < moves.size(); i++) {
-        if (checkAdjacent(moves.get(i))) {
+        if (checkAdjacent(moves.get(i)) > 0) {
           return moves.get(i);
         }
       }
     }
+	/*
+		For when there are four valid moves.
+	*/
     if (moves.size() == 4) {
+	  /*
+		For when there is one or zero pairs
+	  */
       for(int i = 0; i < moves.size(); i++) {
-        if (!(checkAdjacent(moves.get(i)))) {
+        if (!(checkAdjacent(moves.get(i)) > 0)) {
           return moves.get(i);
         }
       }
+	  /*
+	    For when there are two pairs, ensures that a winning move is taken.
+	  */
       for(int i = 0; i < moves.size(); i++) {
         int possible = moves.get(i);
         if (moves.contains((possible + 2) % CIRCLE_SIZE)) {
