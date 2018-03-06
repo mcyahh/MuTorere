@@ -141,8 +141,12 @@ public class PlayerAIC extends Player {
     if (validMoves.isEmpty()) {
       return -1;
     }
-    int temp = rand.nextInt(validMoves.size());
-    return validMoves.get(temp);
+    if (validMoves.size() > 1) {
+      int temp = rand.nextInt(validMoves.size());
+      return validMoves.get(temp);
+    } else {
+      return validMoves.get(0);
+    }
   }
   
   /**
