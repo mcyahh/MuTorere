@@ -187,6 +187,14 @@ public class PlayerAIC extends Player {
           return moves.get(i);
         }
       }
+      for(int i = 0; i < moves.size(); i++) {
+        if (checkAdjacent(moves.get((i + 1) % CIRCLE_SIZE))) {
+          return moves.get(i);
+        }
+        if (checkAdjacent(moves.get((i - 1 + CIRCLE_SIZE) % CIRCLE_SIZE))) {
+          return moves.get(i);
+        }
+      }
     }
     if (moves.size() == 3) {
       for(int i = 0; i < moves.size(); i++) {
