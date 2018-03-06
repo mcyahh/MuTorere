@@ -206,10 +206,10 @@ public class PlayerAIC extends Player {
 		Ensures that a losing move is not taken.
 	  */
       for(int i = 0; i < moves.size(); i++) {
-          if ((checkAdjacent((moves.get(i) + 1) % CIRCLE_SIZE)) == 2) {
+          if (((checkAdjacent((moves.get(i) + 1) % CIRCLE_SIZE)) == 2) && !(super.boardReader.pieceAt((moves.get(i) + 1) % CIRCLE_SIZE) == Board.Piece.BLANK)) {
           return moves.get(i);
         }
-          if ((checkAdjacent((moves.get(i) - 1 + CIRCLE_SIZE) % CIRCLE_SIZE)) ==  2) {
+          if (((checkAdjacent((moves.get(i) - 1 + CIRCLE_SIZE) % CIRCLE_SIZE)) ==  2) && super.boardReader.pieceAt((moves.get(i) - 1 + CIRCLE_SIZE) % CIRCLE_SIZE) != Board.Piece.BLANK ) {
           return moves.get(i);
         }
       }
