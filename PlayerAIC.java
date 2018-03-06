@@ -153,7 +153,18 @@ public class PlayerAIC extends Player {
    * Checks if a valid move has a piece of the same team adjacent to it.
    * @return true if a team piece is adjacent, otherwise false.
    */
-  private boolean checkAdjacent() {
+  private boolean checkAdjacent(int postion) {
+    int[] board = new int[CIRCLE_SIZE]; 
+    for (int i = 0; i <= CIRCLE_SIZE; i++) {
+      if (super.boardreader.pieceAt(i) == playerID) {
+        board[i] = 1;
+      } else {
+        board[i] = 0;
+      }
+    }
+    if (board[(postion + 1) % CIRCLE_SIZE] == 1 || board[(position - 1 + CIRCLE_SIZE) % CIRCLE_SIZE] == 1) {
+      return true;
+    }
     return false;
   }
 }
