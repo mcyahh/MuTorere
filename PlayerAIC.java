@@ -57,7 +57,7 @@ public class PlayerAIC extends Player {
 //  this.playerID = playerID;
 // }
  
-  public PlayerAI2(BoardReader boardReader, Board.Piece playerID) {
+  public PlayerAIC(BoardReader boardReader, Board.Piece playerID) {
     super(boardReader, playerID);
   }
  
@@ -155,8 +155,8 @@ public class PlayerAIC extends Player {
    * @int postion is the piece that is being checked for adjacency.
    * @return 1 if one team piece is adjacent, 2 if two are adjacent, otherwise 0.
    */
-  private int checkAdjacent(int postion) {
-    int[] board = new int[CIRCLE_SIZE]; 
+  private int checkAdjacent(int position) {
+    int[] board = new int[CIRCLE_SIZE + 1]; 
     for (int i = 0; i <= CIRCLE_SIZE; i++) {
       if (super.boardReader.pieceAt(i) == playerID) {
         board[i] = 1;
@@ -164,13 +164,13 @@ public class PlayerAIC extends Player {
         board[i] = 0;
       }
     }
-    if (postion == CIRCLE_SIZE) {
+    if (position == CIRCLE_SIZE) {
       return 0;
     }
-	if (board[(postion + 1) % CIRCLE_SIZE] == 1 && board[(position - 1 + CIRCLE_SIZE) % CIRCLE_SIZE] == 1) {
+	if (board[(position + 1) % CIRCLE_SIZE] == 1 && board[(position - 1 + CIRCLE_SIZE) % CIRCLE_SIZE] == 1) {
       return 2;
 	}
-    if (board[(postion + 1) % CIRCLE_SIZE] == 1 || board[(position - 1 + CIRCLE_SIZE) % CIRCLE_SIZE] == 1) {
+    if (board[(position + 1) % CIRCLE_SIZE] == 1 || board[(position - 1 + CIRCLE_SIZE) % CIRCLE_SIZE] == 1) {
       return 1;
     }
     return 0;
@@ -198,7 +198,7 @@ public class PlayerAIC extends Player {
 		/*
 			Prevents groups of 3.
 		*/
-        if (checkAdjacent(moves.get(i) > 0) {
+        if (checkAdjacent(moves.get(i)) > 0) {
           return moves.get(i);
         }
       }
@@ -206,10 +206,10 @@ public class PlayerAIC extends Player {
 		Ensures that a losing move is not taken.
 	  */
       for(int i = 0; i < moves.size(); i++) {
-        if (checkAdjacent(moves.get((i + 1) % CIRCLE_SIZE)) == 2) {
+          if ((checkAdjacent((moves.get(i) + 1) % CIRCLE_SIZE)) == 2) {
           return moves.get(i);
         }
-        if (checkAdjacent(moves.get((i - 1 + CIRCLE_SIZE) % CIRCLE_SIZE)) ==  2) {
+          if ((checkAdjacent((moves.get(i) - 1 + CIRCLE_SIZE) % CIRCLE_SIZE)) ==  2) {
           return moves.get(i);
         }
       }
