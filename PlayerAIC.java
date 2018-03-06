@@ -145,4 +145,11 @@ public class PlayerAIC extends Player {
     return validMoves.get(temp);
   }
   
+  /**
+   * Checks if a valid move has a piece of the same team adjacent to it.
+   * @return true if a team piece is adjacent, otherwise false.
+   */
+  private boolean checkAdjacent() {
+    return false;
+  }
 }
