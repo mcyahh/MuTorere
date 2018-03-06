@@ -201,8 +201,13 @@ public class PlayerAIC extends Player {
           return moves.get(i);
         }
       }
+      for(int i = 0; i < moves.size(); i++) {
+        int possible = moves.get(i);
+        if (moves.contains((possible + 2) % CIRCLE_SIZE)) {
+          return possible;
+        }
+      }
     }
     return moves.get(0);
-  }
   }
 }
