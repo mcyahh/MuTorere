@@ -121,7 +121,7 @@ public class PlayerAIC extends Player {
 */
   private int availableMoves() { // Mayhaps we use this function
     ArrayList<Integer> validMoves = new ArrayList<>();
-    Random rand = new Random();
+    //Random rand = new Random();
 
     for (int i = 0; i <= CIRCLE_SIZE; i++) {
       if (super.boardReader.pieceAt(i) == super.playerID) {
@@ -142,8 +142,8 @@ public class PlayerAIC extends Player {
       return -1;
     }
     if (validMoves.size() > 1) {
-      int temp = rand.nextInt(validMoves.size());
-      return validMoves.get(temp);
+      //int temp = rand.nextInt(validMoves.size());
+      return isBestMove(validMoves);
     } else {
       return validMoves.get(0);
     }
@@ -151,6 +151,7 @@ public class PlayerAIC extends Player {
   
   /**
    * Checks if a valid move has a piece of the same team adjacent to it.
+   * @int postion is the piece that is being checked for adjacency.
    * @return true if a team piece is adjacent, otherwise false.
    */
   private boolean checkAdjacent(int postion) {
@@ -162,9 +163,46 @@ public class PlayerAIC extends Player {
         board[i] = 0;
       }
     }
+    if (postion == CIRCLE_SIZE) {
+      return false;
+    }
     if (board[(postion + 1) % CIRCLE_SIZE] == 1 || board[(position - 1 + CIRCLE_SIZE) % CIRCLE_SIZE] == 1) {
       return true;
     }
     return false;
+  }
+  
+  /**
+   * Checks valid moves to determine which is the best.
+   * @ArrayList<Integer> moves the array of valid moves.
+   * @return the best piece to move.
+   */
+  private int isBestMove(ArrayList<Integer> moves) {
+    if (moves.size() == 2) {
+      for(int i = 0; i < moves.size(); i++) {
+        if(moves.get(i) == CIRCLE_SIZE) {
+          return moves.get((i + 1) % moves.size());
+        }
+        if (checkAdjacent(moves.get(i)) {
+          return moves.get(i);
+        }
+      }
+    }
+    if (moves.size() == 3) {
+      for(int i = 0; i < moves.size(); i++) {
+        if (checkAdjacent(moves.get(i))) {
+          return moves.get(i);
+        }
+      }
+    }
+    if (moves.size() == 4) {
+      for(int i = 0; i < moves.size(); i++) {
+        if (!(checkAdjacent(moves.get(i)))) {
+          return moves.get(i);
+        }
+      }
+    }
+    return moves.get(0);
+  }
   }
 }
