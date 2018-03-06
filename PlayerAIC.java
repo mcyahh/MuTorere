@@ -157,7 +157,7 @@ public class PlayerAIC extends Player {
   private boolean checkAdjacent(int postion) {
     int[] board = new int[CIRCLE_SIZE]; 
     for (int i = 0; i <= CIRCLE_SIZE; i++) {
-      if (super.boardreader.pieceAt(i) == playerID) {
+      if (super.boardReader.pieceAt(i) == playerID) {
         board[i] = 1;
       } else {
         board[i] = 0;
